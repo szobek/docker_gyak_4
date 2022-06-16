@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  adatbazis:
+    build:
+      context: "./db"
+      dockerfile: "Dockerfile"
+    environment:
+      MYSQL_DATABASE: "test_db"
+      MYSQL_USER: "szobek"
+      MYSQL_PASSWORD: "jelszo123"
+      MYSQL_ROOT_PASSWORD: "jelszo123"
+    networks:
+      - portfolio-net
+    volumes:
+      - ./db/backup:/var/lib/mysql
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    environment:
+      PMA_HOST: "adatbazis"
+      PMA_USER: "szobek"
+      PMA_PASSWORD: "jelszo123"
+      PMA_PORT: "3306"
+    ports:
+      - "8181:80"
+    networks:
+      - portfolio-net
+    depends_on:
+      - adatbazis
+
+networks:
+  portfolio-net:
+    driver: bridge

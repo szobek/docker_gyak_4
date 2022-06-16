@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Környezeti változók beállítása
+  SetEnv DB_HOST adatbazis
+  SetEnv DB_NAME testd
+  SetEnv DB_USER szobek
+  SetEnv DB_PASSWORD pass
+
+  # Public mappa és index.php beállítása
+  RewriteCond %{REQUEST_URI} ^.*favicon
+  RewriteRule ^(.*)$ src/favicon.ico [END]
+
+  RewriteCond %{REQUEST_URI} ^.*public/(.*)
+  RewriteRule ^(.*)$ src/public/%1 [END]
+
+  RewriteRule (.*)  src/index.php [QSA]
+</IfModule>
